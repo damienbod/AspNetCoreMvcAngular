@@ -11,7 +11,7 @@ import { DefaultComponent } from './components/default.component';
         CommonModule,
         FormsModule,
         HttpModule,
-        HomeRoutes
+        DefaultRoutes
     ],
 
     declarations: [

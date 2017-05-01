@@ -11,12 +11,12 @@ import { FormsModule } from '@angular/forms';
 
 import { Configuration } from '../../app/app.constants';
 import { ThingService } from '../../app/core/services/thing-data.service';
-import { HomeComponent } from '../../app/home/components/home.component';
+import { DefaultComponent } from '../../app/default/components/default.component';
 
-describe('HomeComponent', () => {
+describe('DefaultComponent', () => {
 
-    let fixture: ComponentFixture<HomeComponent>;
-    let comp: HomeComponent;
+    let fixture: ComponentFixture<DefaultComponent>;
+    let comp: DefaultComponent;
 
     let configuration = new Configuration();
     let actionUrl: string = configuration.Server + 'api/things/';
@@ -49,12 +49,12 @@ describe('HomeComponent', () => {
                     }, deps: [MockBackend, BaseRequestOptions]
                 }
             ],
-            declarations: [HomeComponent]
+            declarations: [DefaultComponent]
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(HomeComponent);
+        fixture = TestBed.createComponent(DefaultComponent);
         comp = fixture.componentInstance;
     });
 
