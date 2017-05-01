@@ -22,9 +22,9 @@ module.exports = {
     },
 
     output: {
-        path: __dirname + '/wwwroot/',
-        filename: 'dist/[name].bundle.js',
-        chunkFilename: 'dist/[id].chunk.js',
+        path: __dirname + '/',
+        filename: 'wwwroot/dist/[name].bundle.js',
+        chunkFilename: 'wwwroot/dist/[id].chunk.js',
         publicPath: '/'
     },
 
@@ -88,13 +88,13 @@ module.exports = {
         ),
 
         new HtmlWebpackPlugin({
-            filename: 'index.html',
+            filename: 'Views/Shared/_Layout.cshtml',
             inject: 'body',
-            template: 'angularApp/index.html'
+            template: 'angularApp/_Layout.cshtml'
         }),
 
         new CopyWebpackPlugin([
-            { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
+            { from: './angularApp/images/*.*', to: 'wwwroot/assets/', flatten: true }
         ])
     ]
 

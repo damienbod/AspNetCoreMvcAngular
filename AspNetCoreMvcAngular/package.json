@@ -2,7 +2,6 @@
   "name": "angular-webpack-visualstudio",
   "version": "1.0.0",
   "description": "An Angular VS template",
-  "main": "wwwroot/index.html",
   "author": "",
   "license": "ISC",
     "repository": {

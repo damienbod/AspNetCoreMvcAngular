@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <base href="/">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AspNetCoreMvcAngular</title>
@@ -46,5 +47,5 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
-</body>
+<script type="text/javascript" src="~/dist/polyfills.bundle.js"></script><script type="text/javascript" src="~/dist/vendor.bundle.js"></script><script type="text/javascript" src="~/dist/app.bundle.js"></script></body>
 </html>
