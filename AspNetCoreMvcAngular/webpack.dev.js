@@ -87,11 +87,11 @@ module.exports = {
             ]
         ),
 
-        new HtmlWebpackPlugin({
-            filename: 'Views/Shared/_Layout.cshtml',
-            inject: 'body',
-            template: 'angularApp/_Layout.cshtml'
-        }),
+        //new HtmlWebpackPlugin({
+        //    filename: 'Views/Shared/_Layout.cshtml',
+        //    inject: 'body',
+        //    template: 'angularApp/_Layout.cshtml'
+        //}),
 
         new CopyWebpackPlugin([
             { from: './angularApp/images/*.*', to: 'wwwroot/assets/', flatten: true }
