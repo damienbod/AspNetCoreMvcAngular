@@ -10,7 +10,6 @@
   },
   "scripts": {
     "ngc": "ngc -p ./tsconfig-aot.json",
-    "start": "concurrently \"webpack-dev-server --hot --inline --port 8080\" \"dotnet run\" ",
     "webpack-dev": "set NODE_ENV=development && webpack",
     "webpack-production": "set NODE_ENV=production && webpack",
     "build-dev": "npm run webpack-dev",
