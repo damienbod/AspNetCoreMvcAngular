@@ -17,10 +17,17 @@ module.exports = {
         'app': './angularApp/main-aot.ts' // AoT compilation
     },
 
+    //output: {
+    //    path: __dirname + '/wwwroot/',
+    //    filename: 'dist/[name].[hash].bundle.js',
+    //    chunkFilename: 'dist/[id].[hash].chunk.js',
+    //    publicPath: '/'
+    //},
+
     output: {
-        path: __dirname + '/wwwroot/',
-        filename: 'dist/[name].[hash].bundle.js',
-        chunkFilename: 'dist/[id].[hash].chunk.js',
+        path: __dirname + '/',
+        filename: 'wwwroot/dist/[name].bundle.js',
+        chunkFilename: 'wwwroot/dist/[id].chunk.js',
         publicPath: '/'
     },
 
@@ -90,15 +97,19 @@ module.exports = {
                 name: ['vendor', 'polyfills']
             }),
 
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            inject: 'body',
-            template: 'angularApp/index.html'
-        }),
+        //new HtmlWebpackPlugin({
+        //    filename: 'index.html',
+        //    inject: 'body',
+        //    template: 'angularApp/index.html'
+        //}),
 
         new CopyWebpackPlugin([
-            { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
+            { from: './angularApp/images/*.*', to: 'wwwroot/assets/', flatten: true }
         ])
+
+        //new CopyWebpackPlugin([
+        //    { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
+        //])
     ]
 };
 
