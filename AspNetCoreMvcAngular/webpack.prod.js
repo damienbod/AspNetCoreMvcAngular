@@ -86,11 +86,10 @@ module.exports = {
             sourceMap: false
         }),
         new webpack.optimize.CommonsChunkPlugin(
-            {
-                name: ['vendor', 'polyfills']
-            }),
+        {
+            name: ['vendor', 'polyfills']
+        }),
 
-        // This is required is you need the webpack dev server
         new HtmlWebpackPlugin({
             filename: '../Views/Shared/_Layout.cshtml',
             inject: 'body',

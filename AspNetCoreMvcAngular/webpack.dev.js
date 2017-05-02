@@ -87,7 +87,6 @@ module.exports = {
             ]
         ),
 
-        // This is required is you need the webpack dev server
         new HtmlWebpackPlugin({
             filename: '../Views/Shared/_Layout.cshtml',
             inject: 'body',
