@@ -22,9 +22,9 @@ module.exports = {
     },
 
     output: {
-        path: __dirname + '/',
-        filename: 'wwwroot/dist/[name].bundle.js',
-        chunkFilename: 'wwwroot/dist/[id].chunk.js',
+        path: __dirname + '/wwwroot/',
+        filename: 'dist/[name].bundle.js',
+        chunkFilename: 'dist/[id].chunk.js',
         publicPath: '/'
     },
 
@@ -87,14 +87,15 @@ module.exports = {
             ]
         ),
 
+        // This is required is you need the webpack dev server
         //new HtmlWebpackPlugin({
-        //    filename: 'Views/Shared/_Layout.cshtml',
+        //    filename: 'index.html',
         //    inject: 'body',
-        //    template: 'angularApp/_Layout.cshtml'
+        //    template: 'angularApp/index.html'
         //}),
 
         new CopyWebpackPlugin([
-            { from: './angularApp/images/*.*', to: 'wwwroot/assets/', flatten: true }
+            { from: './angularApp/images/*.*', to: 'assets/', flatten: true }
         ])
     ]
 
