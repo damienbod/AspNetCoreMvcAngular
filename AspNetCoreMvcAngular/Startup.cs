@@ -71,7 +71,11 @@ namespace AspNetCoreMvcAngular
             app.UseXContentTypeOptions();
             app.UseReferrerPolicy(opts => opts.NoReferrer());
 
-            //app.UseCsp(opts => opts.DefaultSources(s => s.Self()));
+            app.UseCsp(opts => opts
+                .BlockAllMixedContent()
+                .ScriptSources(s => s.Self())
+                .StyleSources(s => s.UnsafeInline())
+            );
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
