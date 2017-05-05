@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AspNetCoreMvcAngular.Repositories.Things;
 using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace AspNetCoreMvcAngular
 {
@@ -66,7 +67,39 @@ namespace AspNetCoreMvcAngular
                 await next();
             });
 
-            app.UseCors("AllowAllOrigins");
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies"
+            });
+
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            {
+                AuthenticationScheme = "oidc",
+                SignInScheme = "Cookies",
+
+                Authority = "https://localhost:44348",
+                RequireHttpsMetadata = true,
+
+                ClientId = "angularmvcmixedclient",
+                ClientSecret = "thingsscopeSecret",
+
+                ResponseType = "code id_token",
+                Scope = { "thingsscope", "offline_access" },
+
+                GetClaimsFromUserInfoEndpoint = true,
+                SaveTokens = true
+            });
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
