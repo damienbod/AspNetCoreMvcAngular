@@ -28,7 +28,7 @@ namespace QuickstartIdentityServer
                 {
                     ApiSecrets =
                     {
-                        new Secret("thingsscopeSecret".Sha256())
+                        new Secret("thingsscopeSecret")
                     },
                     Scopes =
                     {
