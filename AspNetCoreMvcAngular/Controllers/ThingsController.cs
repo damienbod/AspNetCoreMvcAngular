@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using AspNetCoreMvcAngular.Models;
+﻿using AspNetCoreMvcAngular.Models;
 using AspNetCoreMvcAngular.Repositories.Things;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetCoreMvcAngular.Controller
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class ThingsController : Microsoft.AspNetCore.Mvc.Controller
     {
