@@ -57,6 +57,7 @@ namespace QuickstartIdentityServer
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     AllowAccessTokensViaBrowser = true,
+                    AllowOfflineAccess = true,
                     RedirectUris = { "https://localhost:44341/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:44341/signout-callback-oidc" },
                     AllowedCorsOrigins = new List<string>
