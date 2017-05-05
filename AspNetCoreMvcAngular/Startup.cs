@@ -64,8 +64,14 @@ namespace AspNetCoreMvcAngular
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
             loggerFactory.AddSerilog();
+
+            //Registered before static files to always set header
+            app.UseHsts(hsts => hsts.MaxAge(365));
+            app.UseXContentTypeOptions();
+            app.UseReferrerPolicy(opts => opts.NoReferrer());
+
+            //app.UseCsp(opts => opts.DefaultSources(s => s.Self()));
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -123,7 +129,6 @@ namespace AspNetCoreMvcAngular
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -138,6 +143,11 @@ namespace AspNetCoreMvcAngular
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            //Registered after static files, to set headers for dynamic content.
+            app.UseXfo(xfo => xfo.Deny());
+            app.UseRedirectValidation(); //Register this earlier if there's middleware that might redirect.
         }
     }
 }
