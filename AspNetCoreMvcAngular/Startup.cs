@@ -13,6 +13,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AspNetCoreMvcAngular
 {
@@ -91,13 +93,13 @@ namespace AspNetCoreMvcAngular
                 SignInScheme = "Cookies",
 
                 Authority = "https://localhost:44348",
-                RequireHttpsMetadata = true, 
+                RequireHttpsMetadata = true,
 
                 ClientId = "angularmvcmixedclient",
                 ClientSecret = "thingsscopeSecret",
 
                 ResponseType = "code id_token",
-                Scope = { "thingsscope", "offline_access" },
+                Scope = { "openid", "profile", "thingsscope" },
 
                 GetClaimsFromUserInfoEndpoint = true,
                 SaveTokens = true
@@ -141,5 +143,18 @@ namespace AspNetCoreMvcAngular
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        private string Sha256(string input)
+        {
+            using (var sha = SHA256.Create())
+            {
+                var bytes = Encoding.UTF8.GetBytes(input);
+                var hash = sha.ComputeHash(bytes);
+
+                return Convert.ToBase64String(hash);
+
+            }
+        }
     }
 }
+
