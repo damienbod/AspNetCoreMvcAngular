@@ -69,22 +69,6 @@ namespace AspNetCoreMvcAngular
 
             loggerFactory.AddSerilog();
 
-            var angularRoutes = new[] {
-                 "/default",
-                 "/about"
-             };
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
-                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Request.Path = new PathString("/");
-                }
-
-                await next();
-            });
-
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             if (env.IsDevelopment())
@@ -107,7 +91,7 @@ namespace AspNetCoreMvcAngular
                 SignInScheme = "Cookies",
 
                 Authority = "https://localhost:44348",
-                RequireHttpsMetadata = true,
+                RequireHttpsMetadata = true, 
 
                 ClientId = "angularmvcmixedclient",
                 ClientSecret = "thingsscopeSecret",
@@ -117,6 +101,22 @@ namespace AspNetCoreMvcAngular
 
                 GetClaimsFromUserInfoEndpoint = true,
                 SaveTokens = true
+            });
+
+            var angularRoutes = new[] {
+                 "/default",
+                 "/about"
+             };
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/");
+                }
+
+                await next();
             });
 
             app.UseDefaultFiles();
