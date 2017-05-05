@@ -12,6 +12,9 @@ using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
+using Serilog.Core;
+using Serilog.Events;
+using Serilog;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -19,8 +22,21 @@ namespace IdentityServerWithAspNetIdentitySqlite
     {
         private readonly IHostingEnvironment _environment;
 
+        public static LoggingLevelSwitch MyLoggingLevelSwitch { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
+            MyLoggingLevelSwitch = new LoggingLevelSwitch();
+            MyLoggingLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.ControlledBy(MyLoggingLevelSwitch)
+                .Enrich.WithProperty("App", "IdentityServerWithAspNetIdentitySqlite")
+                .Enrich.FromLogContext()
+                .WriteTo.Seq("http://localhost:5341")
+                .WriteTo.RollingFile("../Logs/IdentityServerWithAspNetIdentitySqlite")
+                .CreateLogger();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -65,6 +81,8 @@ namespace IdentityServerWithAspNetIdentitySqlite
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {

@@ -10,13 +10,29 @@ using Microsoft.Extensions.Logging;
 using AspNetCoreMvcAngular.Repositories.Things;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
+using Serilog.Core;
+using Serilog.Events;
+using Serilog;
 
 namespace AspNetCoreMvcAngular
 {
     public class Startup
     {
+        public static LoggingLevelSwitch MyLoggingLevelSwitch { get; set; }
+
         public Startup(IHostingEnvironment env)
         {
+            MyLoggingLevelSwitch = new LoggingLevelSwitch();
+            MyLoggingLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.ControlledBy(MyLoggingLevelSwitch)
+                .Enrich.WithProperty("App", "AspNetCoreMvcAngular")
+                .Enrich.FromLogContext()
+                .WriteTo.Seq("http://localhost:5341")
+                .WriteTo.RollingFile("../Logs/AspNetCoreMvcAngular")
+                .CreateLogger();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -50,6 +66,8 @@ namespace AspNetCoreMvcAngular
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            loggerFactory.AddSerilog();
 
             var angularRoutes = new[] {
                  "/default",
