@@ -17,3 +17,7 @@ AspNetCoreMvcAngular/angularApp/vendor.js.map
 AspNetCoreMvcAngular/AspNetCoreMvcAngular.csproj.user
 AspNetCoreMvcAngular/aot
 AspNetCoreMvcAngular/npm-debug.log.3657697821
+IdentityServerWithIdentitySQLite/wwwroot
+IdentityServerWithIdentitySQLite/obj
+IdentityServerWithIdentitySQLite/bin
+Logs
