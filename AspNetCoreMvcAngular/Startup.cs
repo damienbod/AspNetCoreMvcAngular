@@ -67,7 +67,7 @@ namespace AspNetCoreMvcAngular
             loggerFactory.AddSerilog();
 
             //Registered before static files to always set header
-            app.UseHsts(hsts => hsts.MaxAge(365));
+            app.UseHsts(hsts => hsts.MaxAge(365).IncludeSubdomains());
             app.UseXContentTypeOptions();
             app.UseReferrerPolicy(opts => opts.NoReferrer());
 
@@ -141,6 +141,11 @@ namespace AspNetCoreMvcAngular
 
             app.UseStaticFiles();
 
+            //Registered after static files, to set headers for dynamic content.
+            app.UseXfo(xfo => xfo.Deny());
+            app.UseRedirectValidation(); //Register this earlier if there's middleware that might redirect.
+            app.UseXXssProtection(options => options.EnabledWithBlockMode());
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -149,9 +154,8 @@ namespace AspNetCoreMvcAngular
             });
 
 
-            //Registered after static files, to set headers for dynamic content.
-            app.UseXfo(xfo => xfo.Deny());
-            app.UseRedirectValidation(); //Register this earlier if there's middleware that might redirect.
+            
+            
         }
     }
 }
