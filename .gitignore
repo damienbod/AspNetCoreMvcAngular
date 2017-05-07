@@ -21,3 +21,4 @@ IdentityServerWithIdentitySQLite/wwwroot
 IdentityServerWithIdentitySQLite/obj
 IdentityServerWithIdentitySQLite/bin
 Logs
+.vs/config/applicationhost.config
