@@ -73,7 +73,6 @@ namespace AspNetCoreMvcAngular
 
             app.UseCsp(opts => opts
                 .BlockAllMixedContent()
-                .ScriptSources(s => s.Self())
                 .StyleSources(s => s.UnsafeInline())
             );
 
@@ -143,7 +142,7 @@ namespace AspNetCoreMvcAngular
 
             //Registered after static files, to set headers for dynamic content.
             app.UseXfo(xfo => xfo.Deny());
-            app.UseRedirectValidation(); //Register this earlier if there's middleware that might redirect.
+            app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); //Register this earlier if there's middleware that might redirect.
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
             app.UseMvc(routes =>
