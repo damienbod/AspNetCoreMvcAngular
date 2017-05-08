@@ -73,6 +73,7 @@ namespace AspNetCoreMvcAngular
 
             app.UseCsp(opts => opts
                 .BlockAllMixedContent()
+                .ScriptSources(s => s.Self()).ScriptSources(s => s.UnsafeEval())
                 .StyleSources(s => s.UnsafeInline())
             );
 
