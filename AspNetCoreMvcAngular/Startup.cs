@@ -143,7 +143,12 @@ namespace AspNetCoreMvcAngular
 
             //Registered after static files, to set headers for dynamic content.
             app.UseXfo(xfo => xfo.Deny());
-            app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); //Register this earlier if there's middleware that might redirect.
+
+            // Register this earlier if there's middleware that might redirect.
+            // The IdentityServer4 port needs to be added here. 
+            // If the IdentityServer4 runs on a different server, this configuration needs to be changed.
+            app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); 
+
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
             app.UseMvc(routes =>
