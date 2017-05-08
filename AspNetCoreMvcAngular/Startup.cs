@@ -122,11 +122,10 @@ namespace AspNetCoreMvcAngular
                     (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
                 {
                     context.Request.Path = new PathString("/");
-                    //send the request token as a JavaScript-readable cookie, and Angular will use it by default
+
+                    // XSRF-TOKEN is picked up by angular
                     var tokens = antiforgery.GetAndStoreTokens(context);
                     context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
-
-
                 }
 
                 await next();
