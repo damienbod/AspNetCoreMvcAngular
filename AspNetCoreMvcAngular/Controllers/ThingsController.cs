@@ -32,6 +32,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add([FromBody] Thing thing)
         {
             if (thing == null)
@@ -50,6 +51,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPatch("{id:int}")]
+        [ValidateAntiForgeryToken]
         public IActionResult PartiallyUpdate(int id, [FromBody] JsonPatchDocument<Thing> patchDoc)
         {
             if (patchDoc == null)
@@ -92,6 +94,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpDelete]
+        [ValidateAntiForgeryToken]
         [Route("{id:int}")]
         public IActionResult Remove(int id)
         {
@@ -107,6 +110,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPut]
+        [ValidateAntiForgeryToken]
         [Route("{id:int}")]
         public IActionResult Update(int id, [FromBody]Thing thing)
         {
