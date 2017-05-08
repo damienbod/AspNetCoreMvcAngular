@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog;
+using Microsoft.AspNetCore.Antiforgery;
 
 namespace AspNetCoreMvcAngular
 {
@@ -51,16 +52,15 @@ namespace AspNetCoreMvcAngular
                         builder
                             .AllowAnyOrigin()
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                            .AllowAnyMethod();});
             });
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
-
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
             services.AddMvc();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAntiforgery antiforgery)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -122,6 +122,10 @@ namespace AspNetCoreMvcAngular
                     (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
                 {
                     context.Request.Path = new PathString("/");
+
+                    // XSRF-TOKEN is picked up by angular
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
                 }
 
                 await next();
