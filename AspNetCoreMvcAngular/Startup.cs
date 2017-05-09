@@ -118,14 +118,14 @@ namespace AspNetCoreMvcAngular
 
             app.Use(async (context, next) =>
             {
+                // XSRF-TOKEN is picked up by angular
+                var tokens = antiforgery.GetAndStoreTokens(context);
+                context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
+
                 if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
                     (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
                 {
                     context.Request.Path = new PathString("/");
-
-                    // XSRF-TOKEN is picked up by angular
-                    var tokens = antiforgery.GetAndStoreTokens(context);
-                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
                 }
 
                 await next();
