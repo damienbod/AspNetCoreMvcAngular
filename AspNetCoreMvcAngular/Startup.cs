@@ -44,16 +44,16 @@ namespace AspNetCoreMvcAngular
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder
-                            .AllowAnyOrigin()
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();});
-            });
+            ////services.AddCors(options =>
+            ////{
+            ////    options.AddPolicy("AllowAllOrigins",
+            ////        builder =>
+            ////        {
+            ////            builder
+            ////                .AllowAnyOrigin()
+            ////                .AllowAnyHeader()
+            ////                .AllowAnyMethod();});
+            ////});
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
