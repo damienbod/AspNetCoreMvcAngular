@@ -123,7 +123,7 @@ namespace AspNetCoreMvcAngular
                 {
                     // XSRF-TOKEN is picked up by angular
                     var tokens = antiforgery.GetAndStoreTokens(context);
-                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = true });
                 }
 
                 if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
