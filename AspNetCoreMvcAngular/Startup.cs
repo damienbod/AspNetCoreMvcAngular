@@ -121,8 +121,8 @@ namespace AspNetCoreMvcAngular
                 string path = context.Request.Path.Value;
                 if (path != null && !path.ToLower().Contains("/api"))
                 {
-                    // XSRF-TOKEN is picked up by angular
-                    var tokens = antiforgery.GetAndStoreTokens(context);
+                    // XSRF-TOKEN used by angular in the $http if provided
+                      var tokens = antiforgery.GetAndStoreTokens(context);
                     context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = true });
                 }
 
