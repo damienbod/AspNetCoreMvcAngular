@@ -107,9 +107,9 @@ module.exports = {
         ),
 
         new HtmlWebpackPlugin({
-            filename: 'index.html',
+            filename: '../Views/Shared/_Layout.cshtml',
             inject: 'body',
-            template: 'angularApp/index.html'
+            template: 'angularApp/_Layout.cshtml'
         }),
 
         new CopyWebpackPlugin([
