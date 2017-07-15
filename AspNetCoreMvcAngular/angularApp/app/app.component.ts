@@ -2,7 +2,7 @@
 
 // AoT compilation doesn't support 'require'.
 import './app.component.scss';
-import '../style/app.scss';
+import '../styles/app.scss';
 
 @Component({
     selector: 'my-app',
