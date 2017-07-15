@@ -4,7 +4,7 @@
   "description": "An Angular VS template",
   "author": "",
   "license": "ISC",
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/damienbod/Angular2WebpackVisualStudio.git"
   },
