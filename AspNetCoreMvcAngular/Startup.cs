@@ -65,42 +65,8 @@ namespace AspNetCoreMvcAngular
                 options.SaveTokens = true;
             });
 
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions
-            //{
-            //    AuthenticationScheme = "Cookies"
-            //});
-
-            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            //{
-            //    AuthenticationScheme = "oidc",
-            //    SignInScheme = "Cookies",
-
-            //    Authority = "https://localhost:44348",
-            //    RequireHttpsMetadata = true,
-
-            //    ClientId = "angularmvcmixedclient",
-            //    ClientSecret = "thingsscopeSecret",
-
-            //    ResponseType = "code id_token",
-            //    Scope = { "openid", "profile", "thingsscope" },
-
-            //    GetClaimsFromUserInfoEndpoint = true,
-            //    SaveTokens = true
-            //});
-
             // TODO add policies 
             services.AddAuthorization();
-
-            ////services.AddCors(options =>
-            ////{
-            ////    options.AddPolicy("AllowAllOrigins",
-            ////        builder =>
-            ////        {
-            ////            builder
-            ////                .AllowAnyOrigin()
-            ////                .AllowAnyHeader()
-            ////                .AllowAnyMethod();});
-            ////});
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
@@ -134,8 +100,6 @@ namespace AspNetCoreMvcAngular
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-          
 
             var angularRoutes = new[] {
                  "/default",
