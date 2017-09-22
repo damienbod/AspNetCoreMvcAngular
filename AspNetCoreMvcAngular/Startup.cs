@@ -12,6 +12,9 @@ using Serilog.Core;
 using Serilog.Events;
 using Serilog;
 using Microsoft.AspNetCore.Antiforgery;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace AspNetCoreMvcAngular
 {
@@ -44,6 +47,50 @@ namespace AspNetCoreMvcAngular
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options => {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {
+                options.SignInScheme = "Cookies";
+                options.Authority = "https://localhost:44348";
+                options.RequireHttpsMetadata = true;
+                options.ClientId = "angularmvcmixedclient";
+                options.ClientSecret = "thingsscopeSecret";
+                options.ResponseType = "code id_token";
+                options.Scope.Add("thingsscope");
+                options.Scope.Add("profile");
+                options.SaveTokens = true;
+            });
+
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    AuthenticationScheme = "Cookies"
+            //});
+
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            //{
+            //    AuthenticationScheme = "oidc",
+            //    SignInScheme = "Cookies",
+
+            //    Authority = "https://localhost:44348",
+            //    RequireHttpsMetadata = true,
+
+            //    ClientId = "angularmvcmixedclient",
+            //    ClientSecret = "thingsscopeSecret",
+
+            //    ResponseType = "code id_token",
+            //    Scope = { "openid", "profile", "thingsscope" },
+
+            //    GetClaimsFromUserInfoEndpoint = true,
+            //    SaveTokens = true
+            //});
+
+            // TODO add policies 
+            services.AddAuthorization();
+
             ////services.AddCors(options =>
             ////{
             ////    options.AddPolicy("AllowAllOrigins",
@@ -88,28 +135,7 @@ namespace AspNetCoreMvcAngular
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "Cookies"
-            });
-
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            {
-                AuthenticationScheme = "oidc",
-                SignInScheme = "Cookies",
-
-                Authority = "https://localhost:44348",
-                RequireHttpsMetadata = true,
-
-                ClientId = "angularmvcmixedclient",
-                ClientSecret = "thingsscopeSecret",
-
-                ResponseType = "code id_token",
-                Scope = { "openid", "profile", "thingsscope" },
-
-                GetClaimsFromUserInfoEndpoint = true,
-                SaveTokens = true
-            });
+          
 
             var angularRoutes = new[] {
                  "/default",
@@ -158,6 +184,8 @@ namespace AspNetCoreMvcAngular
             app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); 
 
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
