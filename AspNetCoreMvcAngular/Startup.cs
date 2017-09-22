@@ -142,25 +142,6 @@ namespace AspNetCoreMvcAngular
                  "/about"
              };
 
-            app.Use(async (context, next) =>
-            {
-                string path = context.Request.Path.Value;
-                if (path != null && !path.ToLower().Contains("/api"))
-                {
-                    // XSRF-TOKEN used by angular in the $http if provided
-                      var tokens = antiforgery.GetAndStoreTokens(context);
-                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = true });
-                }
-
-                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
-                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Request.Path = new PathString("/");
-                }
-
-                await next();
-            });
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -187,6 +168,24 @@ namespace AspNetCoreMvcAngular
 
             app.UseAuthentication();
 
+            app.Use(async (context, next) =>
+            {
+                string path = context.Request.Path.Value;
+                if (path != null && !path.ToLower().Contains("/api"))
+                {
+                    // XSRF-TOKEN used by angular in the $http if provided
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = true });
+                }
+
+                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/");
+                }
+
+                await next();
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
