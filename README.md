@@ -1,3 +1,8 @@
+## ASP.NET Code MVC Client with Angular View and IdentityServer4 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
+
+
 
 ## History
 
