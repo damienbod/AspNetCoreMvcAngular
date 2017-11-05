@@ -11,7 +11,7 @@ export class ThingService {
     private actionUrl: string;
     private headers: Headers;
 
-    constructor(private http: Http, private configuration: Configuration) {
+    constructor(private http: Http, configuration: Configuration) {
 
         this.actionUrl = configuration.Server + 'api/things/';
 

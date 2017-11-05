@@ -60,7 +60,7 @@ describe('DefaultComponent', () => {
 
     it('on init should get all things', async(
         inject([ThingService, MockBackend],
-            (dataService: ThingService, backend: MockBackend) => {
+            ( backend: MockBackend) => {
                 // Mock backend for testing the Http service.
                 expectURL(backend, responses);
 

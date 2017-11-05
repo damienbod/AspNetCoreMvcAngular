@@ -81,7 +81,7 @@ describe('DefaultComponent', function () {
         fixture = TestBed.createComponent(DefaultComponent);
         comp = fixture.componentInstance;
     });
-    it('on init should get all things', async(inject([ThingService, MockBackend], function (dataService, backend) {
+    it('on init should get all things', async(inject([ThingService, MockBackend], function (backend) {
         expectURL(backend, responses);
         fixture.detectChanges();
         fixture.whenStable().then(function () {
