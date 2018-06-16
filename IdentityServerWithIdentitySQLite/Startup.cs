@@ -12,11 +12,10 @@ using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServerWithAspNetIdentitySqlite
 {
@@ -59,12 +58,12 @@ namespace IdentityServerWithAspNetIdentitySqlite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders()
-            .AddIdentityServer();
+            services.AddAuthentication();
 
-            services.AddMvc();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
 

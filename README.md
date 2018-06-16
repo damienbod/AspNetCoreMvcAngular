@@ -2,9 +2,9 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
 
-
-
 ## History
+
+<strong>2018-06-16</strong> Updated to ASP.NET Core 2.1
 
 <strong>2017-09-22</strong> Updated to ASP.NET Core 2.0, Angular 4.4.3
 
