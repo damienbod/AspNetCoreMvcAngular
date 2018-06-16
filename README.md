@@ -4,6 +4,8 @@
 
 ## History
 
+<strong>2018-06-16</strong> Updated to Angular 6.0.5
+
 <strong>2018-06-16</strong> Updated to ASP.NET Core 2.1
 
 <strong>2017-09-22</strong> Updated to ASP.NET Core 2.0, Angular 4.4.3
