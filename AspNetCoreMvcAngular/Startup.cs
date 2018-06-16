@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreMvcAngular
 {
@@ -70,7 +71,7 @@ namespace AspNetCoreMvcAngular
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAntiforgery antiforgery)

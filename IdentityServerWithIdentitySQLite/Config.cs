@@ -15,8 +15,7 @@ namespace QuickstartIdentityServer
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email(),
-                new IdentityResource("thingsscope",new []{ "role", "admin", "user", "thingsapi" } )
+                new IdentityResources.Email()
             };
         }
 
@@ -29,14 +28,6 @@ namespace QuickstartIdentityServer
                     ApiSecrets =
                     {
                         new Secret("thingsscopeSecret".Sha256())
-                    },
-                    Scopes =
-                    {
-                        new Scope
-                        {
-                            Name = "thingsscope",
-                            DisplayName = "Scope for the thingsscope ApiResource"
-                        }
                     },
                     UserClaims = { "role", "admin", "user", "thingsapi" }
                 }
