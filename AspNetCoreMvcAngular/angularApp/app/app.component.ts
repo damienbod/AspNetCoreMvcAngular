@@ -5,7 +5,7 @@ import './app.component.scss';
 import '../styles/app.scss';
 
 @Component({
-    selector: 'my-app',
+    selector: 'app-component',
     templateUrl: 'app.component.html'
 })
 

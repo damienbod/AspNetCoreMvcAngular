@@ -1,46 +1,45 @@
-﻿import { Thing } from './../../models/thing';
-import { Configuration } from './../../app.constants';
+﻿import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+
+import { Configuration } from './../../app.constants';
+import { Thing } from './../../models/thing';
 
 @Injectable()
 export class ThingService {
 
     private actionUrl: string;
-    private headers: Headers;
+    private headers: HttpHeaders;
 
-    constructor(private http: Http, configuration: Configuration) {
+    constructor(private http: HttpClient, configuration: Configuration) {
 
         this.actionUrl = configuration.Server + 'api/things/';
 
-        this.headers = new Headers();
-        this.headers.append('Content-Type', 'application/json');
-        this.headers.append('Accept', 'application/json');
+        this.headers = new HttpHeaders();
+        this.headers = this.headers.set('Content-Type', 'application/json');
+        this.headers = this.headers.set('Accept', 'application/json');
     }
 
-    public GetAll = (): Observable<Thing[]> => {
-        return this.http.post(this.actionUrl + 'all/', '', { headers: this.headers }).map((response: Response) => <Thing[]>response.json());
+    getAll(): Observable<Thing[]> {
+        return this.http.get<Thing[]>(this.actionUrl, { headers: this.headers });
     }
 
-    public GetSingle = (id: number): Observable<Thing> => {
-        return this.http.get(this.actionUrl + id).map(res => <Thing>res.json());
+    getSingle(id: number): Observable<Thing> {
+        return this.http.get<Thing>(this.actionUrl + id, { headers: this.headers });
     }
 
-    public Add = (thingToAdd: Thing): Observable<Thing> => {
-        let toAdd = JSON.stringify({ name: thingToAdd.name });
+    add(thingToAdd: Thing): Observable<Thing> {
+        const toAdd = JSON.stringify({ name: thingToAdd.name });
 
-        return this.http.post(this.actionUrl, toAdd, { headers: this.headers }).map(res => <Thing>res.json());
+        return this.http.post<Thing>(this.actionUrl, toAdd, { headers: this.headers });
     }
 
-    public Update = (id: number, itemToUpdate: any): Observable<Thing> => {
+    update(id: number, itemToUpdate: any): Observable<Thing> {
         return this.http
-            .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers })
-            .map(res => <Thing>res.json());
+            .put<Thing>(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers });
     }
 
-    public Delete = (id: number): Observable<any> => {
-        return this.http.delete(this.actionUrl + id);
+    delete(id: number): Observable<any> {
+        return this.http.delete<any>(this.actionUrl + id, { headers: this.headers });
     }
 }
