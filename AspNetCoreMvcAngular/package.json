@@ -36,7 +36,7 @@
     "@angular/router": "6.0.5",
     "@angular/upgrade": "6.0.5",
     "@angular-devkit/core": "0.6.8",
-    "bootstrap": "4.1.1",
+    "bootstrap": "3.3.7",
     "core-js": "2.5.7",
     "ie-shim": "0.1.0",
     "rxjs": "6.2.1",

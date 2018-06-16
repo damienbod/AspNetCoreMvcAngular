@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'navigation',
+    selector: 'app-navigation-component',
     templateUrl: 'navigation.component.html'
 })
 

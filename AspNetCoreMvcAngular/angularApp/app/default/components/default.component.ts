@@ -3,7 +3,7 @@ import { Thing } from './../../models/thing';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'default-component',
+    selector: 'app-default-component',
     templateUrl: 'default.component.html'
 })
 
@@ -23,7 +23,7 @@ export class DefaultComponent implements OnInit {
 
     public addThing() {
         this.dataService
-            .Add(this.thing)
+            .add(this.thing)
             .subscribe(() => {
                 this.getAllThings();
                 this.thing = new Thing();
@@ -34,7 +34,7 @@ export class DefaultComponent implements OnInit {
 
     public deleteThing(thing: Thing) {
         this.dataService
-            .Delete(thing.id)
+            .delete(thing.id)
             .subscribe(() => {
                 this.getAllThings();
             }, (error) => {
@@ -44,7 +44,7 @@ export class DefaultComponent implements OnInit {
 
     private getAllThings() {
         this.dataService
-            .GetAll()
+            .getAll()
             .subscribe(
             data => this.things = data,
             error => console.log(error),
