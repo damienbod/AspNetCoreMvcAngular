@@ -4,40 +4,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using IdentityServerWithAspNetIdentity.Data;
-using IdentityServerWithAspNetIdentity.Models;
-using IdentityServerWithAspNetIdentity.Services;
-using QuickstartIdentityServer;
 using IdentityServer4.Services;
 using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog;
+using System.Globalization;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using StsServerIdentity.Services.Certificate;
+using StsServerIdentity.Models;
+using StsServerIdentity.Data;
+using StsServerIdentity.Resources;
+using StsServerIdentity.Services;
+using Microsoft.IdentityModel.Tokens;
 
-namespace IdentityServerWithAspNetIdentitySqlite
+namespace StsServerIdentity
 {
     public class Startup
     {
         private readonly IHostingEnvironment _environment;
 
-        public static LoggingLevelSwitch MyLoggingLevelSwitch { get; set; }
-
         public Startup(IHostingEnvironment env)
         {
-            MyLoggingLevelSwitch = new LoggingLevelSwitch();
-            MyLoggingLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.ControlledBy(MyLoggingLevelSwitch)
-                .Enrich.WithProperty("App", "IdentityServerWithAspNetIdentitySqlite")
-                .Enrich.FromLogContext()
-                .WriteTo.Seq("http://localhost:5341")
-                .WriteTo.RollingFile("../Logs/IdentityServerWithAspNetIdentitySqlite")
-                .CreateLogger();
-
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -53,22 +45,96 @@ namespace IdentityServerWithAspNetIdentitySqlite
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+            var stsConfig = Configuration.GetSection("StsConfig");
+            var useLocalCertStore = Convert.ToBoolean(Configuration["UseLocalCertStore"]);
+            var certificateThumbprint = Configuration["CertificateThumbprint"];
+
+            X509Certificate2 cert;
+
+            if (_environment.IsProduction() )
+            {
+                if (useLocalCertStore)
+                {
+                    using (X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+                    {
+                        store.Open(OpenFlags.ReadOnly);
+                        var certs = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
+                        cert = certs[0];
+                        store.Close();
+                    }
+                }
+                else
+                {
+                    // Azure deployment, will be used if deployed to Azure
+                    var vaultConfigSection = Configuration.GetSection("Vault");
+                    var keyVaultService = new KeyVaultCertificateService(vaultConfigSection["Url"], vaultConfigSection["ClientId"], vaultConfigSection["ClientSecret"]);
+                    cert = keyVaultService.GetCertificateFromKeyVault(vaultConfigSection["CertificateName"]);
+                }
+            }
+            else
+            {
+                cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+            }
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddAuthentication();
+            services.Configure<StsConfig>(Configuration.GetSection("StsConfig"));
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
+            services.AddSingleton<LocService>();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.AddAuthentication()
+                 .AddOpenIdConnect("aad", "Login with Azure AD", options =>
+                 {
+                     options.Authority = $"https://login.microsoftonline.com/common";
+                     options.TokenValidationParameters = new TokenValidationParameters { ValidateIssuer = false };
+                     options.ClientId = "99eb0b9d-ca40-476e-b5ac-6f4c32bfb530";
+                     options.CallbackPath = "/signin-oidc";
+                 });
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.Configure<RequestLocalizationOptions>(
+                options =>
+                {
+                    var supportedCultures = new List<CultureInfo>
+                        {
+                            new CultureInfo("en-US"),
+                            new CultureInfo("de-CH"),
+							new CultureInfo("fr-CH"),
+							new CultureInfo("it-CH")
+                        };
+
+                    options.DefaultRequestCulture = new RequestCulture(culture: "de-CH", uiCulture: "de-CH");
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+
+                    var providerQuery = new LocalizationQueryProvider
+                    {
+                        QureyParamterName = "ui_locales"
+                    };
+
+                    options.RequestCultureProviders.Insert(0, providerQuery);
+                });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    {
+                        var assemblyName = new AssemblyName(typeof(SharedResource).GetTypeInfo().Assembly.FullName);
+                        return factory.Create("SharedResource", assemblyName.Name);
+                    };
+                });
 
             services.AddTransient<IProfileService, IdentityWithAdditionalClaimsProfileService>();
 
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
@@ -84,22 +150,21 @@ namespace IdentityServerWithAspNetIdentitySqlite
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            loggerFactory.AddSerilog();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseDatabaseErrorPage();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseStaticFiles();
-
             app.UseIdentityServer();
-            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

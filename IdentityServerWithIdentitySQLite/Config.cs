@@ -5,7 +5,7 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
-namespace QuickstartIdentityServer
+namespace StsServerIdentity
 {
     public class Config
     {
