@@ -24,3 +24,5 @@ Logs
 .vs/config/applicationhost.config
 /.vs
 /IdentityServerWithIdentitySQLite/node_modules
+/AspNetCoreMvcAngular/angularApp/tests/**/*.js.map
+/AspNetCoreMvcAngular/angularApp/tests/components/default.component.spec.js
