@@ -23,3 +23,4 @@ IdentityServerWithIdentitySQLite/bin
 Logs
 .vs/config/applicationhost.config
 /.vs
+/IdentityServerWithIdentitySQLite/node_modules

@@ -1,8 +1,10 @@
-﻿@model IdentityServer4.Quickstart.UI.Models.ScopeViewModel
+﻿@using StsServerIdentity.Resources
+@inject LocService SharedLocalizer
+@model StsServerIdentity.Models.ScopeViewModel
 
 <li class="list-group-item">
     <label>
-        <input class="consent-scopecheck"
+        <input class="consent-scopecheck big_checkbox"
                type="checkbox"
                name="ScopesConsented"
                id="scopes_@Model.Name"
@@ -23,7 +25,7 @@
     </label>
     @if (Model.Required)
     {
-        <span><em>(required)</em></span>
+        <span><em>@SharedLocalizer.GetLocalizedHtmlString("CONSENT_REQUIRED")</em></span>
     }
     @if (Model.Description != null)
     {
