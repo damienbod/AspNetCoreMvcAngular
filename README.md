@@ -4,7 +4,7 @@
 
 ## History
 
-<strong>2018-12-01</strong> Updated to Angular 7.1.0, latest .NET 2.1 packages, updated STS
+<strong>2019-03-15</strong> Updated to Angular 7.2.9,  .NET Core 2.2
 
 <strong>2018-09-17</strong> Updated to Angular 6.1.7, latest .NET 2.1 packages, updated STS
 
