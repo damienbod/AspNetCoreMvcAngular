@@ -4,6 +4,8 @@
 
 ## History
 
+<strong>2019-05-03</strong> Updated to npm, nuget packages, in-process
+
 <strong>2019-03-15</strong> Updated to Angular 7.2.9,  .NET Core 2.2
 
 <strong>2018-09-17</strong> Updated to Angular 6.1.7, latest .NET 2.1 packages, updated STS
