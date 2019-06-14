@@ -4,15 +4,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using AspNetCoreMvcAngular.Repositories.Things;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
-using Serilog.Core;
-using Serilog.Events;
-using Serilog;
 using Microsoft.AspNetCore.Antiforgery;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
@@ -21,30 +16,12 @@ namespace AspNetCoreMvcAngular
 {
     public class Startup
     {
-        public static LoggingLevelSwitch MyLoggingLevelSwitch { get; set; }
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            MyLoggingLevelSwitch = new LoggingLevelSwitch();
-            MyLoggingLevelSwitch.MinimumLevel = LogEventLevel.Verbose;
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.ControlledBy(MyLoggingLevelSwitch)
-                .Enrich.WithProperty("App", "AspNetCoreMvcAngular")
-                .Enrich.FromLogContext()
-                .WriteTo.Seq("http://localhost:5341")
-                .WriteTo.RollingFile("../Logs/AspNetCoreMvcAngular")
-                .CreateLogger();
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -74,12 +51,8 @@ namespace AspNetCoreMvcAngular
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-            loggerFactory.AddSerilog();
-
             //Registered before static files to always set header
             app.UseHsts(hsts => hsts.MaxAge(365).IncludeSubdomains());
             app.UseXContentTypeOptions();
