@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace AspNetCoreMvcAngular
 {
@@ -48,13 +49,23 @@ namespace AspNetCoreMvcAngular
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
             //Registered before static files to always set header
-            app.UseHsts(hsts => hsts.MaxAge(365).IncludeSubdomains());
             app.UseXContentTypeOptions();
             app.UseReferrerPolicy(opts => opts.NoReferrer());
 
@@ -66,15 +77,6 @@ namespace AspNetCoreMvcAngular
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
             var angularRoutes = new[] {
                  "/default",
                  "/about"
@@ -83,28 +85,15 @@ namespace AspNetCoreMvcAngular
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.UseStaticFiles();
-
             //Registered after static files, to set headers for dynamic content.
             app.UseXfo(xfo => xfo.Deny());
 
-            // Register this earlier if there's middleware that might redirect.
-            // The IdentityServer4 port needs to be added here. 
-            // If the IdentityServer4 runs on a different server, this configuration needs to be changed.
             app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); 
-
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
+            app.UseRouting();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.Use(async (context, next) =>
             {
@@ -124,12 +113,14 @@ namespace AspNetCoreMvcAngular
 
                 await next();
             });
-            app.UseMvc(routes =>
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });  
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+            });
         }
     }
 }
