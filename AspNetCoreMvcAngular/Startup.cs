@@ -49,7 +49,9 @@ namespace AspNetCoreMvcAngular
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
-            services.AddControllersWithViews().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)

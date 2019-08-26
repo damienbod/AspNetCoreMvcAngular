@@ -51,7 +51,7 @@ namespace AspNetCoreMvcAngular
             .ConfigureAppConfiguration((context, config) =>
             {
                 var builder = config.Build();
-                IHostingEnvironment env = context.HostingEnvironment;
+                var env = context.HostingEnvironment;
 
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
