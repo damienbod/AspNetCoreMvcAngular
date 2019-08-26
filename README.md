@@ -4,6 +4,8 @@
 
 ## History
 
+<strong>2019-08-27</strong> Updated to .NET Core 3.0
+
 <strong>2019-06-14</strong> Updated to npm, nuget packages
 
 <strong>2019-05-03</strong> Updated to npm, nuget packages, in-process
