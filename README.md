@@ -1,6 +1,5 @@
 ## ASP.NET Code MVC Client with Angular View and IdentityServer4 
 
-[![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
 
 ## History
 
@@ -28,4 +27,7 @@
 	<li><a href="https://damienbod.com/2017/05/09/anti-forgery-validation-with-asp-net-core-mvc-and-angular/">Anti-Forgery Validation with ASP.NET Core MVC and Angular</a></li>
 
 </ul>
+
+ASP.NET Core 3.0 preview build not supported
+[![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
 
