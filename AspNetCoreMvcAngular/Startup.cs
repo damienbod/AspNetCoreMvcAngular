@@ -76,7 +76,6 @@ namespace AspNetCoreMvcAngular
             //Registered before static files to always set header
             app.UseXContentTypeOptions();
             app.UseReferrerPolicy(opts => opts.NoReferrer());
-
             app.UseCsp(opts => opts
                 .BlockAllMixedContent()
                 .ScriptSources(s => s.Self()).ScriptSources(s => s.UnsafeEval())
@@ -85,7 +84,6 @@ namespace AspNetCoreMvcAngular
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-         
             var angularRoutes = new[] {
                  "/default",
                  "/about"
@@ -96,7 +94,6 @@ namespace AspNetCoreMvcAngular
 
             //Registered after static files, to set headers for dynamic content.
             app.UseXfo(xfo => xfo.Deny());
-
             app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); 
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 

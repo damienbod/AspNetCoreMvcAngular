@@ -1,5 +1,6 @@
 ## ASP.NET Code MVC Client with Angular View and IdentityServer4 
 
+Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with Same site and use Anti-forgery protection. Security headers are also applied.
 
 ## History
 
