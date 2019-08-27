@@ -28,6 +28,14 @@
 
 </ul>
 
+ 33 Links 
+
+https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-2.2
+
+https://stackoverflow.com/questions/46040922/angular4-httpclient-csrf-does-not-send-x-xsrf-token
+
+https://en.wikipedia.org/wiki/Cross-site_request_forgery
+
 ASP.NET Core 3.0 preview build not supported
 [![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
 
