@@ -17,7 +17,6 @@ namespace AspNetCoreMvcAngular.Controller
             _thingsRepository = thingsRepository;
         }
 
-        // problems with cache
         [HttpGet]
         public IActionResult Get()
         {
@@ -25,6 +24,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         [Route("all")]
         public IActionResult GetAll()
         {
@@ -32,7 +32,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public IActionResult Add([FromBody] Thing thing)
         {
             if (thing == null)
@@ -51,7 +51,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPatch("{id:int}")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult PartiallyUpdate(int id, [FromBody] JsonPatchDocument<Thing> patchDoc)
         {
             if (patchDoc == null)
@@ -94,7 +94,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpDelete]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [Route("{id:int}")]
         public IActionResult Remove(int id)
         {
@@ -110,7 +110,7 @@ namespace AspNetCoreMvcAngular.Controller
         }
 
         [HttpPut]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         [Route("{id:int}")]
         public IActionResult Update(int id, [FromBody]Thing thing)
         {

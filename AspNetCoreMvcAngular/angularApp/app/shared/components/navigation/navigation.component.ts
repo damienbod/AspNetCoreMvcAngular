@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-//import { Observable } from 'rxjs';
 import { Configuration } from './../../../app.constants';
 
 @Component({
