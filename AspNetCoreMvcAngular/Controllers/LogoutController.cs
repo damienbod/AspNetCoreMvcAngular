@@ -11,33 +11,13 @@ namespace AspNetCoreMvcAngular.Controller
     {
         [HttpPost]
         [Route("")]
-        [Authorize]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("Cookies");
             await HttpContext.SignOutAsync("OpenIdConnect");
 
             return Ok();
-            //return new SignOutResult(new[] { "Cookies", "OpenIdConnect" });
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Add([FromBody] Thing thing)
-        //{
-        //    if (thing == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    Thing newThing = _thingsRepository.Add(thing);
-
-        //    return CreatedAtRoute("GetSingleThing", new { id = newThing.Id }, newThing);
-        //}
     }
 }

@@ -49,7 +49,14 @@ namespace AspNetCoreMvcAngular
             services.AddAuthorization();
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
-            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+            services.AddAntiforgery(options =>
+            {
+                options.Cookie.Name = "XSRF-TOKEN";
+                options.Cookie.HttpOnly = false;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.HeaderName = "X-XSRF-TOKEN";
+            });
+
             services.AddControllersWithViews()
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
@@ -80,6 +87,7 @@ namespace AspNetCoreMvcAngular
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+         
             var angularRoutes = new[] {
                  "/default",
                  "/about"
@@ -105,7 +113,8 @@ namespace AspNetCoreMvcAngular
                 {
                     // XSRF-TOKEN used by angular in the $http if provided
                     var tokens = antiforgery.GetAndStoreTokens(context);
-                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false, Secure = true });
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken,
+                        new CookieOptions() { HttpOnly = false });
                 }
 
                 if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
