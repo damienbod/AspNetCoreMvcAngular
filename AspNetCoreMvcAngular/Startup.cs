@@ -51,9 +51,7 @@ namespace AspNetCoreMvcAngular
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options =>
             {
-                options.Cookie.Name = "XSRF-TOKEN";
                 options.Cookie.HttpOnly = false;
-                options.Cookie.SameSite = SameSiteMode.None;
                 options.HeaderName = "X-XSRF-TOKEN";
             });
 

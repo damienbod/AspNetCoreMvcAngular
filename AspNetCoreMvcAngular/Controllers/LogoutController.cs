@@ -11,7 +11,7 @@ namespace AspNetCoreMvcAngular.Controller
     {
         [HttpPost]
         [Route("")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("Cookies");
