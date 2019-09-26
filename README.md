@@ -1,5 +1,7 @@
 ## ASP.NET Code MVC Client with Angular View and IdentityServer4 
 
+[![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
+
 Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with Same site and use Anti-forgery protection. Security headers are also applied.
 
 ## History
@@ -40,7 +42,4 @@ https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=
 https://stackoverflow.com/questions/46040922/angular4-httpclient-csrf-does-not-send-x-xsrf-token
 
 https://en.wikipedia.org/wiki/Cross-site_request_forgery
-
-ASP.NET Core 3.0 preview build not supported
-[![Build status](https://ci.appveyor.com/api/projects/status/wkt4bkxgocxhetqn?svg=true)](https://ci.appveyor.com/project/damienbod/aspnetcoremvcangular)
 
