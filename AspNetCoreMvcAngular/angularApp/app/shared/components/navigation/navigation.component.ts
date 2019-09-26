@@ -10,7 +10,7 @@ import { Configuration } from './../../../app.constants';
 export class NavigationComponent {
 
     private actionUrl: string;
-    private headers: HttpHeaders;
+    private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private http: HttpClient, configuration: Configuration) {
 

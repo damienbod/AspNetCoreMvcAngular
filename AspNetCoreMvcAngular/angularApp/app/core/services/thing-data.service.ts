@@ -9,7 +9,7 @@ import { Thing } from './../../models/thing';
 export class ThingService {
 
     private actionUrl: string;
-    private headers: HttpHeaders;
+    private headers: HttpHeaders  = new HttpHeaders();
 
     constructor(private http: HttpClient, configuration: Configuration) {
 
