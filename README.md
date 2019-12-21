@@ -6,6 +6,8 @@ Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with S
 
 ## History
 
+<strong>2019-12-21</strong> Updated to .NET Core 3.1 Angular 8.2.14
+
 <strong>2019-09-26</strong> Updated to .NET Core 3.0 Angular 8.2.8
 
 <strong>2019-09-14</strong> Updated to .NET Core 3.0 preview 9, Angular 8.2.6
