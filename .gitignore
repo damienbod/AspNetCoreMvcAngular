@@ -26,3 +26,4 @@ Logs
 /IdentityServerWithIdentitySQLite/node_modules
 /AspNetCoreMvcAngular/angularApp/tests/**/*.js.map
 /AspNetCoreMvcAngular/angularApp/tests/components/default.component.spec.js
+/StsLogs.txt
