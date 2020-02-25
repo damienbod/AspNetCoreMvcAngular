@@ -102,10 +102,16 @@ module.exports = {
         //  analyzerMode: 'static',
         //  generateStatsFile: true
         // }),
-        new webpackTools.AngularCompilerPlugin({
-            tsConfigPath: './tsconfig-aot.json',
+		new webpackTools.AngularCompilerPlugin({
+		  tsConfigPath: './tsconfig-aot.json',
+		  entryModule: './angularApp/app/app.module#AppModule',
+		  sourceMap: true,
+		}),
+		
+        //new webpackTools.AngularCompilerPlugin({
+         //   tsConfigPath: './tsconfig-aot.json',
             // entryModule: './angularApp/app/app.module#AppModule'
-        }),
+        //}),
 
         // new webpack.optimize.ModuleConcatenationPlugin(),
 
@@ -125,9 +131,6 @@ module.exports = {
         //   parallel: 2
         // }),
 
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: ['vendor', 'polyfills']
-    // }),
 	new HtmlWebpackPlugin({
 		filename: '../Views/Shared/_Layout.cshtml',
 		inject: 'body',
