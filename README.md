@@ -6,6 +6,8 @@ Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with S
 
 ## History
 
+<strong>2020-03-03</strong> Updated STS to support FIDO2
+
 <strong>2020-02-25</strong> Updated nuget packages, npm packages
 
 <strong>2020-01-10</strong> Updated nuget packages, same site fix
