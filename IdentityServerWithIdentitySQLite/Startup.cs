@@ -120,7 +120,7 @@ namespace StsServerIdentity
                 .AddSigningCredential(x509Certificate2Certs.ActiveCertificate)
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients(stsConfig))
+                .AddInMemoryClients(Config.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityWithAdditionalClaimsProfileService>();
 
