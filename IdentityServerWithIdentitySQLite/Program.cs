@@ -69,6 +69,7 @@ namespace StsServerIdentity
                         .ReadFrom.Configuration(hostingContext.Configuration)
                         .Enrich.FromLogContext()
                         .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+                        .WriteTo.File("../StsLogs.txt")
                 );
             });
     }

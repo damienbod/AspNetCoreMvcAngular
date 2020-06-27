@@ -19,17 +19,27 @@ namespace StsServerIdentity
             };
         }
 
+        public static IEnumerable<ApiScope> GetApiScopes()
+        {
+            return new List<ApiScope>
+            {
+                new ApiScope("thingsscope", "Scope for the thingsscope"),
+                //new ApiScope("securedFiles",  "Scope for the securedFiles ApiResource")
+            };
+        }
+
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
             {
-                new ApiResource("thingsscope")
+                new ApiResource("thingsscopeApi")
                 {
                     ApiSecrets =
                     {
                         new Secret("thingsscopeSecret".Sha256())
                     },
-                    UserClaims = { "role", "admin", "user", "thingsapi" }
+                    UserClaims = { "role", "admin", "user", "thingsapi" },
+                    Scopes = { "thingsscope" }
                 }
             };
         }
@@ -45,6 +55,8 @@ namespace StsServerIdentity
                     ClientSecrets = {new Secret("thingsscopeSecret".Sha256()) },
                     AllowedGrantTypes = GrantTypes.Hybrid,
                     AllowOfflineAccess = true,
+                    RequireConsent = true,
+                    RequirePkce = false,
                     RedirectUris = { "https://localhost:44341/signin-oidc" },
                     PostLogoutRedirectUris = { "https://localhost:44341/signout-callback-oidc" },
                     AllowedCorsOrigins = new List<string>

@@ -47,7 +47,7 @@ Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with S
 
  ## Links 
 
-https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-2.2
+https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery
 
 https://stackoverflow.com/questions/46040922/angular4-httpclient-csrf-does-not-send-x-xsrf-token
 
