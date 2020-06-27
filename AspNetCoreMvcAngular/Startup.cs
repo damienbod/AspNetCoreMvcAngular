@@ -41,7 +41,8 @@ namespace AspNetCoreMvcAngular
                 options.ResponseType = "code id_token";
                 options.Scope.Add("thingsscope");
                 options.Scope.Add("profile");
-                options.Prompt = "login"; // select_account login consent
+                options.UsePkce = false;
+                //options.Prompt = "login"; // select_account login consent
                 options.SaveTokens = true;
             });
 
