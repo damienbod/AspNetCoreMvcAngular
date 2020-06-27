@@ -59,8 +59,7 @@ namespace AspNetCoreMvcAngular
             });
 
             services.AddControllersWithViews()
-                .AddNewtonsoftJson()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .AddNewtonsoftJson();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
