@@ -1,10 +1,7 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using IdentityServer4.Configuration;
 using IdentityServer4.Events;
@@ -14,10 +11,14 @@ using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StsServerIdentity.Filters;
+using StsServerIdentity.Models;
+using StsServerIdentity.Resources;
 
-namespace IdentityServerHost.Quickstart.UI
+namespace StsServerIdentity.Controllers
 {
     [Authorize]
     [SecurityHeaders]
@@ -27,17 +28,23 @@ namespace IdentityServerHost.Quickstart.UI
         private readonly IEventService _events;
         private readonly IOptions<IdentityServerOptions> _options;
         private readonly ILogger<DeviceController> _logger;
+        private readonly IStringLocalizer _sharedLocalizer;
 
         public DeviceController(
             IDeviceFlowInteractionService interaction,
             IEventService eventService,
             IOptions<IdentityServerOptions> options,
-            ILogger<DeviceController> logger)
+            ILogger<DeviceController> logger,
+            IStringLocalizerFactory factory)
         {
             _interaction = interaction;
             _events = eventService;
             _options = options;
             _logger = logger;
+
+            var type = typeof(SharedResource);
+            var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
+            _sharedLocalizer = factory.Create("SharedResource", assemblyName.Name);
         }
 
         [HttpGet]
@@ -117,12 +124,12 @@ namespace IdentityServerHost.Quickstart.UI
                 }
                 else
                 {
-                    result.ValidationError = ConsentOptions.MustChooseOneErrorMessage;
+                    result.ValidationError = _sharedLocalizer["You must pick at least one permission"];
                 }
             }
             else
             {
-                result.ValidationError = ConsentOptions.InvalidSelectionErrorMessage;
+                result.ValidationError = _sharedLocalizer["Invalid selection"];
             }
 
             if (grantedConsent != null)
@@ -222,8 +229,8 @@ namespace IdentityServerHost.Quickstart.UI
             return new ScopeViewModel
             {
                 Value = IdentityServer4.IdentityServerConstants.StandardScopes.OfflineAccess,
-                DisplayName = ConsentOptions.OfflineAccessDisplayName,
-                Description = ConsentOptions.OfflineAccessDescription,
+                DisplayName = _sharedLocalizer["Offline Access"],
+                Description = _sharedLocalizer["Access to your applications and resources, even when you are offline"],
                 Emphasize = true,
                 Checked = check
             };
