@@ -4,6 +4,15 @@
 
 Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with Same site and use Anti-forgery protection. Security headers are also applied.
 
+## Blogs
+
+<ul>
+	<li><a href="https://damienbod.com/2017/05/02/using-angular-in-an-asp-net-core-view-with-webpack/">Using Angular in an ASP.NET Core View with Webpack</a></li>
+	<li><a href="https://damienbod.com/2017/05/06/secure-asp-net-core-mvc-with-angular-using-identityserver4-openid-connect-hybrid-flow/">Secure ASP.NET Core MVC with Angular using IdentityServer4 OpenID Connect Hybrid Flow</a></li>
+	<li><a href="https://damienbod.com/2017/05/09/anti-forgery-validation-with-asp-net-core-mvc-and-angular/">Anti-Forgery Validation with ASP.NET Core MVC and Angular</a></li>
+
+</ul>
+
 ## History
 
 <strong>2020-06-27</strong> Updated IdentityServer4 to version 4.0.0 and Angular to version 10.0.0
@@ -38,14 +47,6 @@ Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with S
 
 <strong>2017-09-22</strong> Updated to ASP.NET Core 2.0, Angular 4.4.3
 
-## Blogs
-
-<ul>
-	<li><a href="https://damienbod.com/2017/05/02/using-angular-in-an-asp-net-core-view-with-webpack/">Using Angular in an ASP.NET Core View with Webpack</a></li>
-	<li><a href="https://damienbod.com/2017/05/06/secure-asp-net-core-mvc-with-angular-using-identityserver4-openid-connect-hybrid-flow/">Secure ASP.NET Core MVC with Angular using IdentityServer4 OpenID Connect Hybrid Flow</a></li>
-	<li><a href="https://damienbod.com/2017/05/09/anti-forgery-validation-with-asp-net-core-mvc-and-angular/">Anti-Forgery Validation with ASP.NET Core MVC and Angular</a></li>
-
-</ul>
 
  ## Links 
 
