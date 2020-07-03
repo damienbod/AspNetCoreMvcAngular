@@ -43,8 +43,7 @@ namespace AspNetCoreMvcAngular
                 options.Scope.Add("profile");
                 //options.Scope.Add("offline_access");
                 options.UsePkce = false;
-                // NOT WORKING in ID4 version 4.0.0 => bug
-                //options.Prompt = "login"; // select_account login consent
+                options.Prompt = "login"; // select_account login consent
                 options.SaveTokens = true;
             });
 

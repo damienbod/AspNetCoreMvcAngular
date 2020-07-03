@@ -15,6 +15,8 @@ Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with S
 
 ## History
 
+<strong>2020-07-03</strong> Updated IdentityServer4 to version 4.0.1, prompt=login bug fix
+
 <strong>2020-06-27</strong> Updated IdentityServer4 to version 4.0.0 and Angular to version 10.0.0
 
 <strong>2020-06-23</strong> Updated Nuget packages, Updating Angular packages
