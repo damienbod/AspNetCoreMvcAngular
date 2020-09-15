@@ -26,7 +26,8 @@ namespace AspNetCoreMvcAngular
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
@@ -95,7 +96,7 @@ namespace AspNetCoreMvcAngular
 
             //Registered after static files, to set headers for dynamic content.
             app.UseXfo(xfo => xfo.Deny());
-            app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348)); 
+            app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348));
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
             app.UseRouting();

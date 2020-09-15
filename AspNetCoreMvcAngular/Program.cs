@@ -56,9 +56,9 @@ namespace AspNetCoreMvcAngular
                 config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                     .AddEnvironmentVariables();
-                    //.AddUserSecrets("your user secret....");
+                //.AddUserSecrets("your user secret....");
 
-                })
+            })
             .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                 .ReadFrom.Configuration(hostingContext.Configuration)
                 .Enrich.FromLogContext()
