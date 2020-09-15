@@ -51,7 +51,7 @@ namespace StsServerIdentity
                 ServerDomain = _optionsFido2Configuration.Value.ServerDomain,
                 ServerName = _optionsFido2Configuration.Value.ServerName,
                 Origin = _optionsFido2Configuration.Value.Origin,
-                TimestampDriftTolerance = _optionsFido2Configuration.Value.TimestampDriftTolerance,
+                TimestampDriftTolerance = _optionsFido2Configuration.Value.TimestampDriftTolerance
             });
         }
 
@@ -61,6 +61,7 @@ namespace StsServerIdentity
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("/mfaassertionOptions")]
         public async Task<ActionResult> AssertionOptionsPost([FromForm] string username, [FromForm] string userVerification)
         {
@@ -115,6 +116,7 @@ namespace StsServerIdentity
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("/mfamakeAssertion")]
         public async Task<JsonResult> MakeAssertion([FromBody] AuthenticatorAssertionRawResponse clientResponse)
         {
