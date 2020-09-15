@@ -29,7 +29,7 @@ namespace StsServerIdentity
         private readonly IStringLocalizer _sharedLocalizer;
 
         public MfaFido2RegisterController(
-            Fido2Storage fido2Storage, 
+            Fido2Storage fido2Storage,
             UserManager<ApplicationUser> userManager,
             IOptions<Fido2Configuration> optionsFido2Configuration,
             IStringLocalizerFactory factory)
@@ -78,7 +78,7 @@ namespace StsServerIdentity
                 // 2. Get user existing keys by username
                 var items = await _fido2Storage.GetCredentialsByUsername(identityUser.UserName);
                 var existingKeys = new List<PublicKeyCredentialDescriptor>();
-                foreach(var publicKeyCredentialDescriptor in items)
+                foreach (var publicKeyCredentialDescriptor in items)
                 {
                     existingKeys.Add(publicKeyCredentialDescriptor.Descriptor);
                 }
