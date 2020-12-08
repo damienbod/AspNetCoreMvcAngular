@@ -152,7 +152,6 @@ namespace StsServerIdentity
             if (_environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
