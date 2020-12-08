@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using AspNetCoreMvcAngular.Models;
+using BffAngularAspNetCoreAad.Models;
 
-namespace AspNetCoreMvcAngular.Repositories.Things
+namespace BffAngularAspNetCoreAad.Repositories.Things
 {
     public class ThingsRepository : IThingsRepository
     {

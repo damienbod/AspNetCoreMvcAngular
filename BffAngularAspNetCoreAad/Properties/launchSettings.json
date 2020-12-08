@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AspNetCoreMvcAngular": {
+    "BffAngularAspNetCoreAad": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

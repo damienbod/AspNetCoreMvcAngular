@@ -1,4 +1,4 @@
-﻿namespace AspNetCoreMvcAngular.Models
+﻿namespace BffAngularAspNetCoreAad.Models
 {
     public class Thing
     {

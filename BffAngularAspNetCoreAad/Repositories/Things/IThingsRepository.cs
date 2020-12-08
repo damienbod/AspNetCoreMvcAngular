@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using AspNetCoreMvcAngular.Models;
+using BffAngularAspNetCoreAad.Models;
 
-namespace AspNetCoreMvcAngular.Repositories.Things
+namespace BffAngularAspNetCoreAad.Repositories.Things
 {
     public interface IThingsRepository
     {

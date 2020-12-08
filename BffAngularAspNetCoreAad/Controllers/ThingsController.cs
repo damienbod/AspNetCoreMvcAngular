@@ -1,10 +1,10 @@
-﻿using AspNetCoreMvcAngular.Models;
-using AspNetCoreMvcAngular.Repositories.Things;
+﻿using BffAngularAspNetCoreAad.Models;
+using BffAngularAspNetCoreAad.Repositories.Things;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace AspNetCoreMvcAngular.Controller
+namespace BffAngularAspNetCoreAad.Controller
 {
     [Authorize]
     [Route("api/[controller]")]

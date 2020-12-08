@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AspNetCoreMvcAngular.Repositories.Things;
+using BffAngularAspNetCoreAad.Repositories.Things;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Antiforgery;
@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 
-namespace AspNetCoreMvcAngular
+namespace BffAngularAspNetCoreAad
 {
     public class Startup
     {
@@ -26,12 +26,7 @@ namespace AspNetCoreMvcAngular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-
-            string[] initialScopes = Configuration.GetValue<string>("UserApiOne:ScopeForAccessToken")?.Split(' ');
-
-            services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
-                .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
-                .AddInMemoryTokenCaches();
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
             services.AddAntiforgery(options =>
@@ -67,11 +62,6 @@ namespace AspNetCoreMvcAngular
                 .StyleSources(s => s.UnsafeInline())
             );
 
-            app.UseRedirectValidation(opts =>
-            {
-                opts.AllowedDestinations("https://login.microsoftonline.com/");
-            });
-
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             var angularRoutes = new[] {
@@ -84,7 +74,12 @@ namespace AspNetCoreMvcAngular
 
             //Registered after static files, to set headers for dynamic content.
             app.UseXfo(xfo => xfo.Deny());
-            app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348));
+            //app.UseRedirectValidation(t => t.AllowSameHostRedirectsToHttps(44348));
+            app.UseRedirectValidation(opts =>
+            {
+                opts.AllowedDestinations("https://login.microsoftonline.com/7ff95b15-dc21-4ba6-bc92-824856578fc1/oauth2/v2.0/authorize");
+            });
+
             app.UseXXssProtection(options => options.EnabledWithBlockMode());
 
             app.UseRouting();
