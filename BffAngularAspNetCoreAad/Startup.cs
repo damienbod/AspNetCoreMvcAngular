@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace BffAngularAspNetCoreAad
 {
@@ -26,6 +29,7 @@ namespace BffAngularAspNetCoreAad
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration);
 
             services.AddSingleton<IThingsRepository, ThingsRepository>();
@@ -35,9 +39,25 @@ namespace BffAngularAspNetCoreAad
                 options.HeaderName = "X-XSRF-TOKEN";
             });
 
-            services.AddControllersWithViews()
-                .AddMicrosoftIdentityUI()
-                .AddNewtonsoftJson();
+            // The following lines code instruct the asp.net core middleware to use the data in the "roles" claim in the Authorize attribute and User.IsInrole()
+            services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+            {
+
+                options.TokenValidationParameters.RoleClaimType = "roles";
+                options.TokenValidationParameters.NameClaimType = "email";
+            });
+
+            services.AddControllersWithViews(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddMicrosoftIdentityUI()
+              .AddNewtonsoftJson();
+
+            services.AddRazorPages();
+             
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
@@ -111,6 +131,7 @@ namespace BffAngularAspNetCoreAad
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
