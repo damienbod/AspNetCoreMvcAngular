@@ -3,6 +3,7 @@
 
 using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace StsServerIdentity
@@ -44,7 +45,7 @@ namespace StsServerIdentity
             };
         }
 
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(IConfigurationSection authConfigurations)
         {
             return new List<Client>
             {
