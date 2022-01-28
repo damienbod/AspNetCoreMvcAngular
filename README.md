@@ -15,6 +15,8 @@ Secured using Cookies, and OpenID Connect Hybrid Flow. Cookies configured with S
 
 ## History
 
+<strong>2022-01-28</strong> Updated to .NET 6
+
 <strong>2021-02-17</strong> Updated packages
 
 <strong>2020-12-08</strong> Updated to .NET 5
